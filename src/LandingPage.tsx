@@ -736,7 +736,7 @@ const HomePage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="pulse-on-focus"
+                className="pulse-on-focus border border-white"
               />
               <button type="submit" className="cta-button shimmer-button">Create Free Account →</button>
             </form>
