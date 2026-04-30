@@ -1,0 +1,270 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Shell ─────────────────────────────────────────── */
+.phone-shell {
+  width: 390px;
+  min-height: 100vh;
+  background: #f4f6f9;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 90px;
+}
+.scroll-content::-webkit-scrollbar { display: none; }
+
+/* ── Header ────────────────────────────────────────── */
+.header {
+  background: #ffffff;
+  padding: 20px 24px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #bbf7d0, #86efac);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  color: #15803d;
+  flex-shrink: 0;
+}
+
+.greeting-block { display: flex; align-items: center; gap: 10px; }
+.greeting-text small { display: block; font-size: 12px; color: #9ca3af; font-weight: 400; }
+.greeting-text h2 { font-size: 16px; font-weight: 700; color: #111827; }
+
+.bell-btn {
+  width: 38px;
+  height: 38px;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+.bell-dot {
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 7px; height: 7px;
+  background: #ef4444;
+  border-radius: 50%;
+  border: 1.5px solid white;
+}
+
+/* ── Balance ───────────────────────────────────────── */
+.balance-section {
+  background: #ffffff;
+  padding: 4px 24px 24px;
+  border-bottom: 1px solid #f3f4f6;
+}
+.balance-label { font-size: 12px; color: #9ca3af; margin-bottom: 4px; display: flex; align-items: center; gap: 5px; }
+.balance-amount { display: flex; align-items: baseline; gap: 2px; }
+.balance-currency { font-size: 22px; font-weight: 700; color: #111827; }
+.balance-int { font-size: 36px; font-weight: 800; color: #111827; letter-spacing: -1px; }
+.balance-dec { font-size: 20px; font-weight: 600; color: #6b7280; }
+.balance-meta { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+.card-num { font-size: 12px; color: #9ca3af; letter-spacing: 1px; }
+.growth-badge {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 20px;
+}
+
+/* ── Quick Actions ─────────────────────────────────── */
+.quick-actions {
+  background: #ffffff;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  border-bottom: 1px solid #f3f4f6;
+}
+.action-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  flex: 1;
+}
+.action-icon-wrap {
+  width: 48px;
+  height: 48px;
+  background: #f3f4f6;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, transform 0.15s;
+}
+.action-item:hover .action-icon-wrap {
+  background: #dcfce7;
+  transform: translateY(-2px);
+}
+.action-label { font-size: 11px; color: #6b7280; font-weight: 500; text-align: center; }
+
+/* ── Section wrapper ───────────────────────────────── */
+.section { padding: 20px 24px 0; }
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.section-title { font-size: 16px; font-weight: 700; color: #111827; }
+.see-all { font-size: 13px; color: #16a34a; font-weight: 600; cursor: pointer; border: none; background: none; }
+
+/* ── Card ──────────────────────────────────────────── */
+.card-wrap {
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1a6b3a 0%, #16a34a 40%, #22c55e 100%);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 12px 32px rgba(22, 163, 74, 0.35);
+  min-height: 180px;
+}
+.card-wrap::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 180px; height: 180px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+.card-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: -30px; left: 20px;
+  width: 120px; height: 120px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+.card-label { font-size: 11px; color: rgba(255,255,255,0.7); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 4px; }
+.card-type-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 28px; }
+.card-type { font-size: 14px; font-weight: 600; color: white; }
+.card-nfc { opacity: 0.8; }
+.card-chip {
+  width: 32px; height: 24px;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.card-number { font-size: 15px; color: rgba(255,255,255,0.85); letter-spacing: 3px; font-weight: 500; margin-bottom: 18px; }
+.card-footer { display: flex; justify-content: space-between; align-items: flex-end; }
+.card-holder-label { font-size: 9px; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; }
+.card-holder-name { font-size: 13px; font-weight: 600; color: white; margin-top: 2px; }
+.visa-logo { font-size: 18px; font-weight: 900; color: white; font-style: italic; letter-spacing: -1px; }
+
+/* ── Budget ────────────────────────────────────────── */
+.budget-card {
+  background: white;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-top: 16px;
+}
+.budget-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.budget-label { font-size: 11px; color: #9ca3af; font-weight: 500; text-transform: uppercase; letter-spacing: 1px; }
+.budget-percent { font-size: 22px; font-weight: 800; color: #16a34a; }
+.budget-percent span { font-size: 13px; font-weight: 500; color: #9ca3af; }
+.budget-amounts { display: flex; }
+.budget-spent { font-size: 20px; font-weight: 700; color: #111827; }
+.budget-total { font-size: 15px; color: #9ca3af; font-weight: 500; align-self: flex-end; }
+.progress-track {
+  height: 8px;
+  background: #f3f4f6;
+  border-radius: 99px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #16a34a, #4ade80);
+  border-radius: 99px;
+  transition: width 0.6s ease;
+}
+.budget-hint { font-size: 12px; color: #6b7280; }
+.budget-hint strong { color: #16a34a; }
+
+/* ── Recent Activity ───────────────────────────────── */
+.activity-list { display: flex; flex-direction: column; gap: 0; }
+.txn-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #f9fafb;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.txn-item:last-child { border-bottom: none; }
+.txn-icon {
+  width: 44px; height: 44px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.txn-details { flex: 1; }
+.txn-name { font-size: 14px; font-weight: 600; color: #111827; }
+.txn-cat { font-size: 12px; color: #9ca3af; margin-top: 2px; }
+.txn-right { text-align: right; }
+.txn-amount { font-size: 15px; font-weight: 700; }
+.txn-date { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.positive { color: #16a34a; }
+.negative { color: #111827; }
+
+/* ── Bottom Nav ────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  width: 390px;
+  background: white;
+  border-top: 1px solid #f3f4f6;
+  display: flex;
+  padding: 12px 0 24px;
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.06);
+}
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+  transition: transform 0.15s;
+}
+.nav-item:active { transform: scale(0.92); }
+.nav-label { font-size: 10px; font-weight: 500; }
+.nav-label.active { color: #16a34a; }
+.nav-label.inactive { color: #9ca3af; }
+
+/* ── Responsive ────────────────────────────────────── */
+@media (max-width: 420px) {
+  .phone-shell { width: 100vw; }
+  .bottom-nav  { width: 100vw; }
+}
