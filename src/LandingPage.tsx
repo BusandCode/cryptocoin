@@ -323,7 +323,7 @@ const LandingPage = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="pulse-on-focus border border-white"
+                className="border-2 border-black outline-2"
               />
               <button type="submit" className="cta-button shimmer-button">Create Free Account →</button>
             </form>
