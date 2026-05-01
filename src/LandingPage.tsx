@@ -1,7 +1,7 @@
 // import React, { useState } from 'react';
 // import "./styles/landing.css";
 
-// const HomePage = () => {
+// const LandingPage = () => {
 //   const [email, setEmail] = useState('');
 
 //   const handleSubmit = (e: React.FormEvent) => {
@@ -385,12 +385,12 @@
 //   );
 // };
 
-// export default HomePage;
+// export default LandingPage;
 
 import React, { useState, useEffect } from 'react';
 import "./styles/landing.css";
 
-const HomePage = () => {
+const LandingPage = () => {
   const [email, setEmail] = useState('');
   
   // Intersection Observer for scroll animations
@@ -804,4 +804,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default LandingPage;
