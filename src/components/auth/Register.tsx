@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ChangeEvent, ReactNode } from "react";
 import { 
   ArrowRight, 
@@ -12,14 +12,21 @@ import {
   Mail,
   Phone,
   User,
-  // CreditCard,
-  Sparkles
+  // Sparkles
 } from "lucide-react";
 
+const CryptoIcon = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 const features = [
-  { icon: <TrendingUp size={18} />, title: "Fast approvals", desc: "Get loan decisions in minutes, not days." },
-  { icon: <Shield size={18} />, title: "Bank-grade security", desc: "256-bit encryption. Your data stays private." },
-  { icon: <Clock size={18} />, title: "Flexible repayment", desc: "Plans that adapt to your income and schedule." },
+  { icon: <TrendingUp size={18} />, title: "Fast Trading", desc: "Execute trades in milliseconds with our high-speed engine." },
+  { icon: <Shield size={18} />, title: "Cold Storage", desc: "98% of assets stored offline in multi-signature wallets." },
+  { icon: <Clock size={18} />, title: "24/7 Support", desc: "Round-the-clock customer support for all your needs." },
 ];
 
 interface FieldProps {
@@ -30,70 +37,42 @@ interface FieldProps {
   suffix?: ReactNode;
   value?: string;
   error?: string;
+  name?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const Field = ({ label, type = "text", placeholder, icon, suffix, value = "", error, onChange }: FieldProps) => {
+const Field = ({ label, type = "text", placeholder, icon, suffix, value = "", error, name, onChange }: FieldProps) => {
   const [focused, setFocused] = useState(false);
   
   return (
-    <div>
-      <label style={{
-        display: "block",
-        fontSize: 12,
-        fontWeight: 600,
-        color: "#374151",
-        marginBottom: 8,
-        fontFamily: "'DM Sans', 'Nunito', sans-serif",
-      }}>
+    <div className="field-container">
+      <label className="field-label">
         {label}
       </label>
       <div style={{ position: "relative" }}>
         {icon && (
-          <div style={{
-            position: "absolute",
-            left: 14,
-            top: "50%",
-            transform: "translateY(-50%)",
-            color: focused ? "#16a34a" : "#9ca3af",
-            transition: "color 0.2s",
-            zIndex: 1,
-          }}>
+          <div className={`field-icon ${focused ? 'focused' : ''}`}>
             {icon}
           </div>
         )}
         <input
+          name={name}
           type={type}
           placeholder={placeholder}
           value={value}
           onChange={onChange}
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
-          style={{
-            width: "100%",
-            padding: `12px ${suffix ? 44 : 16}px 12px ${icon ? 44 : 16}px`,
-            fontSize: 14,
-            fontFamily: "'DM Sans', 'Nunito', sans-serif",
-            background: focused ? "#f0fdf4" : "#ffffff",
-            border: `1.5px solid ${error ? "#ef4444" : focused ? "#16a34a" : "#e5e7eb"}`,
-            borderRadius: 12,
-            color: "#111827",
-            outline: "none",
-            boxSizing: "border-box",
-            transition: "all 0.2s ease",
-          }}
+          className={`field-input ${error ? 'error' : ''} ${focused ? 'focused' : ''}`}
         />
         {suffix && (
-          <div style={{
-            position: "absolute", right: 14, top: "50%",
-            transform: "translateY(-50%)", display: "flex",
-          }}>
+          <div className="field-suffix">
             {suffix}
           </div>
         )}
       </div>
       {error && (
-        <p style={{ fontSize: 11, color: "#ef4444", marginTop: 6, fontWeight: 500 }}>
+        <p className="field-error">
           {error}
         </p>
       )}
@@ -114,6 +93,11 @@ const Register = () => {
     confirmPassword: ""
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(true);
+  }, []);
 
   const validateField = (name: string, value: string) => {
     switch (name) {
@@ -137,7 +121,7 @@ const Register = () => {
         if (value !== formData.password) return "Passwords do not match";
         return "";
       default:
-        if (!value) return `${name} is required`;
+        if (!value && name !== "confirmPassword") return `${name} is required`;
         return "";
     }
   };
@@ -177,20 +161,61 @@ const Register = () => {
     return strength;
   };
 
+  const strengthText = () => {
+    const s = passwordStrength();
+    if (s === 0) return "Very weak";
+    if (s === 1) return "Weak";
+    if (s === 2) return "Fair";
+    if (s === 3) return "Strong";
+    return "Very strong";
+  };
+
+  const strengthColor = () => {
+    const s = passwordStrength();
+    if (s === 0) return "#ef4444";
+    if (s === 1) return "#f59e0b";
+    if (s === 2) return "#eab308";
+    if (s === 3) return "#16a34a";
+    return "#22c55e";
+  };
+
   return (
-    <div style={{
-      minHeight: "100vh",
-      display: "flex",
-      background: "linear-gradient(135deg, #f4f6f9 0%, #ffffff 100%)",
-      fontFamily: "'DM Sans', 'Nunito', sans-serif",
-    }}>
+    <div className={`register-container ${isLoaded ? 'loaded' : ''}`}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700;800&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        input::placeholder { color: #d1d5db; }
-        input[type="checkbox"] { accent-color: #16a34a; }
+        * {
+          box-sizing: border-box;
+          margin: 0;
+          padding: 0;
+        }
         
+        body {
+          font-family: 'DM Sans', 'Nunito', sans-serif;
+        }
+        
+        .register-container {
+          min-height: 100vh;
+          display: flex;
+          background: linear-gradient(135deg, #f4f6f9 0%, #ffffff 100%);
+          font-family: 'DM Sans', 'Nunito', sans-serif;
+          opacity: 0;
+          transition: opacity 0.6s ease;
+        }
+        
+        .register-container.loaded {
+          opacity: 1;
+        }
+        
+        input::placeholder {
+          color: #d1d5db;
+        }
+        
+        input[type="checkbox"] {
+          accent-color: #16a34a;
+        }
+        
+        /* Sidebar Styles */
         .reg-sidebar {
           display: none;
           width: 480px;
@@ -221,6 +246,7 @@ const Register = () => {
           height: 400px;
           background: radial-gradient(circle, rgba(34,197,94,0.12) 0%, transparent 70%);
           border-radius: 50%;
+          animation: float 20s ease-in-out infinite;
         }
         
         .sidebar-glow-2 {
@@ -231,6 +257,7 @@ const Register = () => {
           height: 300px;
           background: radial-gradient(circle, rgba(22,163,74,0.08) 0%, transparent 70%);
           border-radius: 50%;
+          animation: float 15s ease-in-out infinite reverse;
         }
         
         .sidebar-pattern {
@@ -241,10 +268,92 @@ const Register = () => {
           height: 200px;
           background: repeating-linear-gradient(45deg, rgba(34,197,94,0.03) 0px, rgba(34,197,94,0.03) 2px, transparent 2px, transparent 8px);
           border-radius: 50%;
+          animation: spin 30s linear infinite;
         }
         
-        .mobile-logo { display: flex; }
+        .mobile-logo {
+          display: flex;
+        }
         
+        /* Form Styles */
+        .field-container {
+          margin-bottom: 0;
+        }
+        
+        .field-label {
+          display: block;
+          font-size: 12px;
+          font-weight: 600;
+          color: #374151;
+          margin-bottom: 8px;
+          font-family: 'DM Sans', 'Nunito', sans-serif;
+          transform: translateY(0);
+          transition: all 0.2s ease;
+        }
+        
+        .field-icon {
+          position: absolute;
+          left: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          color: #9ca3af;
+          transition: all 0.2s ease;
+          z-index: 1;
+        }
+        
+        .field-icon.focused {
+          color: #16a34a;
+          transform: translateY(-50%) scale(1.05);
+        }
+        
+        .field-input {
+          width: 100%;
+          padding: 12px 16px 12px 44px;
+          font-size: 14px;
+          font-family: 'DM Sans', 'Nunito', sans-serif;
+          background: #ffffff;
+          border: 1.5px solid #e5e7eb;
+          border-radius: 12px;
+          color: #111827;
+          outline: none;
+          box-sizing: border-box;
+          transition: all 0.2s ease;
+        }
+        
+        .field-input.focused {
+          background: #f0fdf4;
+          border-color: #16a34a;
+          transform: scale(1.01);
+        }
+        
+        .field-input.error {
+          border-color: #ef4444;
+          animation: shake 0.3s ease;
+        }
+        
+        .field-suffix {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          display: flex;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+        
+        .field-suffix:hover {
+          transform: translateY(-50%) scale(1.1);
+        }
+        
+        .field-error {
+          font-size: 11px;
+          color: #ef4444;
+          margin-top: 6px;
+          font-weight: 500;
+          animation: slideDown 0.2s ease;
+        }
+        
+        /* Button Styles */
         .reg-btn {
           width: 100%;
           padding: 14px 20px;
@@ -261,8 +370,27 @@ const Register = () => {
           color: white;
           box-shadow: 0 8px 20px rgba(22,163,74,0.30);
           font-family: 'DM Sans', 'Nunito', sans-serif;
-          transition: all 0.2s ease;
-          letter-spacing: -0.01em;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .reg-btn::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          border-radius: 50%;
+          background: rgba(255, 255, 255, 0.3);
+          transform: translate(-50%, -50%);
+          transition: width 0.6s, height 0.6s;
+        }
+        
+        .reg-btn:hover::before {
+          width: 300px;
+          height: 300px;
         }
         
         .reg-btn:hover {
@@ -274,10 +402,11 @@ const Register = () => {
           transform: scale(0.98);
         }
         
+        /* Animations */
         @keyframes slideIn {
           from {
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-30px);
           }
           to {
             opacity: 1;
@@ -285,13 +414,145 @@ const Register = () => {
           }
         }
         
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes scaleIn {
+          from {
+            opacity: 0;
+            transform: scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-20px);
+          }
+        }
+        
+        @keyframes spin {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+        
+        @keyframes shake {
+          0%, 100% {
+            transform: translateX(0);
+          }
+          25% {
+            transform: translateX(-5px);
+          }
+          75% {
+            transform: translateX(5px);
+          }
+        }
+        
+        @keyframes slideDown {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: scale(1.05);
+            opacity: 0.9;
+          }
+        }
+        
+        @keyframes shimmer {
+          0% {
+            background-position: -200% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
+        
+        /* Animation Classes */
         .animate-sidebar {
           animation: slideIn 0.6s ease-out;
         }
         
+        .animate-fade-up {
+          animation: fadeInUp 0.6s ease-out forwards;
+        }
+        
+        .animate-scale {
+          animation: scaleIn 0.5s ease-out forwards;
+        }
+        
+        .float-animation {
+          animation: float 6s ease-in-out infinite;
+        }
+        
+        .spin-slow {
+          animation: spin 20s linear infinite;
+        }
+        
+        .pulse-animation {
+          animation: pulse 2s ease-in-out infinite;
+        }
+        
+        /* Stagger Animations */
+        .stagger-1 { animation-delay: 0.05s; }
+        .stagger-2 { animation-delay: 0.1s; }
+        .stagger-3 { animation-delay: 0.15s; }
+        .stagger-4 { animation-delay: 0.2s; }
+        .stagger-5 { animation-delay: 0.25s; }
+        .stagger-6 { animation-delay: 0.3s; }
+        
+        /* Hover Effects */
+        .hover-grow {
+          transition: transform 0.3s ease;
+        }
+        
+        .hover-grow:hover {
+          transform: scale(1.05);
+        }
+        
+        /* Responsive */
         @media (min-width: 1024px) {
-          .reg-sidebar { display: flex !important; }
-          .mobile-logo { display: none !important; }
+          .reg-sidebar {
+            display: flex !important;
+          }
+          .mobile-logo {
+            display: none !important;
+          }
+        }
+        
+        @media (max-width: 768px) {
+          .reg-sidebar {
+            display: none;
+          }
         }
       `}</style>
 
@@ -304,15 +565,15 @@ const Register = () => {
         </div>
 
         <div style={{ position: "relative", zIndex: 1 }}>
-          {/* Logo */}
-          <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 56 }}>
+          {/* Logo with animation */}
+          <div className="float-animation" style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 56 }}>
             <div style={{
-              width: 44, height: 44, borderRadius: 14,
+              width: 48, height: 48, borderRadius: 14,
               background: "linear-gradient(135deg, #16a34a, #22c55e)",
               display: "flex", alignItems: "center", justifyContent: "center",
               boxShadow: "0 10px 24px rgba(22,163,74,0.25)",
             }}>
-              <Sparkles size={22} color="white" />
+              <CryptoIcon />
             </div>
             <div>
               <span style={{ fontSize: 22, fontWeight: 800, color: "#111827", letterSpacing: "-0.03em" }}>CryptoCoin</span>
@@ -320,9 +581,9 @@ const Register = () => {
             </div>
           </div>
 
-          {/* Headline */}
+          {/* Headline with staggered animation */}
           <div style={{ marginBottom: 32 }}>
-            <div style={{
+            <div className="animate-fade-up stagger-1" style={{
               display: "inline-flex",
               alignItems: "center",
               gap: 8,
@@ -331,20 +592,19 @@ const Register = () => {
               borderRadius: 99,
               marginBottom: 20,
             }}>
-              <span style={{
+              <span className="pulse-animation" style={{
                 width: 8, height: 8, borderRadius: "50%",
                 background: "#16a34a", display: "inline-block",
-                animation: "pulse 2s infinite",
               }} />
               <span style={{ fontSize: 12, fontWeight: 700, color: "#15803d" }}>✨ TRUSTED PLATFORM</span>
             </div>
-            <h1 style={{
+            <h1 className="animate-fade-up stagger-2" style={{
               fontSize: 34, fontWeight: 800, color: "#111827",
               lineHeight: 1.2, marginBottom: 12, letterSpacing: "-0.03em",
             }}>
               Start your crypto<br />journey today
             </h1>
-            <p style={{
+            <p className="animate-fade-up stagger-3" style={{
               fontSize: 14, color: "#6b7280",
               lineHeight: 1.6, maxWidth: 340,
             }}>
@@ -355,12 +615,23 @@ const Register = () => {
           {/* Features */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24, marginBottom: 48 }}>
             {features.map((f, idx) => (
-              <div key={f.title} style={{ display: "flex", gap: 16, alignItems: "flex-start", opacity: 0, animation: `slideIn 0.4s ease-out ${idx * 0.1}s forwards` }}>
+              <div 
+                key={f.title} 
+                className="hover-grow"
+                style={{ 
+                  display: "flex", 
+                  gap: 16, 
+                  alignItems: "flex-start",
+                  opacity: 0,
+                  animation: `slideIn 0.5s ease-out ${0.2 + idx * 0.1}s forwards`
+                }}
+              >
                 <div style={{
                   width: 48, height: 48, minWidth: 48, borderRadius: 16,
                   background: "linear-gradient(135deg, #dcfce7, #f0fdf4)",
                   display: "flex", alignItems: "center", justifyContent: "center",
                   color: "#16a34a",
+                  transition: "all 0.3s ease",
                 }}>
                   {f.icon}
                 </div>
@@ -373,17 +644,20 @@ const Register = () => {
           </div>
 
           {/* Testimonial */}
-          <div style={{
+          <div className="animate-fade-up stagger-4" style={{
             background: "linear-gradient(135deg, #f9fafb, #ffffff)",
             border: "1px solid #e5e7eb",
             borderRadius: 20,
             padding: "20px 24px",
             position: "relative",
             overflow: "hidden",
+            transition: "all 0.3s ease",
           }}>
             <div style={{
               position: "absolute", top: 0, left: 0, right: 0, height: 3,
               background: "linear-gradient(90deg, #16a34a, #22c55e, #4ade80)",
+              animation: "shimmer 2s linear infinite",
+              backgroundSize: "200% auto",
             }} />
             <div style={{ display: "flex", gap: 14, alignItems: "flex-start" }}>
               <div style={{
@@ -415,11 +689,11 @@ const Register = () => {
           letterSpacing: "0.08em", position: "relative", zIndex: 1,
           paddingTop: 40,
         }}>
-          <span>🔒 REGULATED</span>
+          <span className="hover-grow">🔒 REGULATED</span>
           <span>·</span>
-          <span>📊 TRANSPARENT</span>
+          <span className="hover-grow">📊 TRANSPARENT</span>
           <span>·</span>
-          <span>✓ TRUSTED</span>
+          <span className="hover-grow">✓ TRUSTED</span>
         </div>
       </aside>
 
@@ -432,14 +706,14 @@ const Register = () => {
         <div style={{ width: "100%", maxWidth: 480 }}>
 
           {/* Mobile logo */}
-          <div className="mobile-logo" style={{ alignItems: "center", gap: 12, marginBottom: 32, justifyContent: "center" }}>
+          <div className="mobile-logo animate-fade-up" style={{ alignItems: "center", gap: 12, marginBottom: 32, justifyContent: "center" }}>
             <div style={{
               width: 44, height: 44, borderRadius: 12,
               background: "linear-gradient(135deg, #16a34a, #22c55e)",
               display: "flex", alignItems: "center", justifyContent: "center",
               boxShadow: "0 8px 20px rgba(22,163,74,0.25)",
             }}>
-              <Sparkles size={22} color="white" />
+              <CryptoIcon />
             </div>
             <div>
               <span style={{ fontSize: 20, fontWeight: 800, color: "#111827", letterSpacing: "-0.02em" }}>CryptoCoin</span>
@@ -448,7 +722,7 @@ const Register = () => {
           </div>
 
           {/* Form Card */}
-          <div style={{
+          <div className="animate-scale" style={{
             background: "white",
             borderRadius: 28,
             padding: "40px 36px",
@@ -458,7 +732,7 @@ const Register = () => {
 
             {/* Header */}
             <div style={{ marginBottom: 32 }}>
-              <div style={{
+              <div className="animate-fade-up stagger-1" style={{
                 display: "inline-flex", alignItems: "center", gap: 8,
                 background: "#dcfce7", color: "#15803d",
                 fontSize: 11, fontWeight: 700,
@@ -468,13 +742,15 @@ const Register = () => {
                 <CheckCircle size={12} />
                 SECURE REGISTRATION
               </div>
-              <h2 style={{
+              <h2 className="animate-fade-up stagger-2" style={{
                 fontSize: 28, fontWeight: 800, color: "#111827",
                 letterSpacing: "-0.03em", lineHeight: 1.2, marginBottom: 8,
               }}>
                 Create your account
               </h2>
-              <p style={{ fontSize: 14, color: "#6b7280" }}>
+              <p className="animate-fade-up stagger-3" style={{
+                fontSize: 14, color: "#6b7280",
+              }}>
                 Start your crypto journey in seconds
               </p>
             </div>
@@ -488,7 +764,7 @@ const Register = () => {
                   icon={<User size={16} />}
                   value={formData.firstName}
                   onChange={handleChange}
-                  // name="firstName"
+                  name="firstName"
                   error={errors.firstName}
                 />
                 <Field
@@ -497,7 +773,7 @@ const Register = () => {
                   icon={<User size={16} />}
                   value={formData.lastName}
                   onChange={handleChange}
-                  // name="lastName"
+                  name="lastName"
                   error={errors.lastName}
                 />
               </div>
@@ -509,7 +785,7 @@ const Register = () => {
                 icon={<Mail size={16} />}
                 value={formData.email}
                 onChange={handleChange}
-                // name="email"
+                name="email"
                 error={errors.email}
               />
 
@@ -520,7 +796,7 @@ const Register = () => {
                 icon={<Phone size={16} />}
                 value={formData.phone}
                 onChange={handleChange}
-                // name="phone"
+                name="phone"
                 error={errors.phone}
               />
 
@@ -530,19 +806,19 @@ const Register = () => {
                 placeholder="Create a strong password"
                 icon={<Lock size={16} />}
                 suffix={
-                  <span onClick={() => setShowPw(!showPw)} style={{ color: "#9ca3af", cursor: "pointer", display: "flex" }}>
+                  <span onClick={() => setShowPw(!showPw)} className="hover-grow">
                     {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
                   </span>
                 }
                 value={formData.password}
                 onChange={handleChange}
-                // name="password"
+                name="password"
                 error={errors.password}
               />
 
               {/* Password strength indicator */}
               {formData.password && (
-                <div style={{ marginTop: -12, marginBottom: 4 }}>
+                <div className="animate-fade-up" style={{ marginTop: -12, marginBottom: 4 }}>
                   <div style={{
                     display: "flex", gap: 4,
                     background: "#f3f4f6", borderRadius: 6,
@@ -551,18 +827,20 @@ const Register = () => {
                     {[0, 1, 2, 3].map(i => (
                       <div key={i} style={{
                         flex: 1,
-                        background: i < passwordStrength() ? "#16a34a" : "#e5e7eb",
+                        background: i < passwordStrength() ? strengthColor() : "#e5e7eb",
                         borderRadius: 4,
-                        transition: "background 0.2s",
+                        transition: "all 0.3s ease",
+                        width: `${(i + 1) * 25}%`,
                       }} />
                     ))}
                   </div>
-                  <p style={{ fontSize: 10, color: "#6b7280", marginTop: 6 }}>
-                    {passwordStrength() === 0 && "🔒 Very weak"}
-                    {passwordStrength() === 1 && "🔓 Weak"}
-                    {passwordStrength() === 2 && "🔐 Fair"}
-                    {passwordStrength() === 3 && "🔒 Strong"}
-                    {passwordStrength() === 4 && "🛡️ Very strong"}
+                  <p style={{ fontSize: 10, color: strengthColor(), marginTop: 6, fontWeight: 600 }}>
+                    {strengthText() === "Very strong" && "🛡️ "}
+                    {strengthText() === "Strong" && "🔒 "}
+                    {strengthText() === "Fair" && "🔐 "}
+                    {strengthText() === "Weak" && "🔓 "}
+                    {strengthText() === "Very weak" && "⚠️ "}
+                    {strengthText()} password
                   </p>
                 </div>
               )}
@@ -573,18 +851,18 @@ const Register = () => {
                 placeholder="Repeat your password"
                 icon={<Lock size={16} />}
                 suffix={
-                  <span onClick={() => setShowConfirm(!showConfirm)} style={{ color: "#9ca3af", cursor: "pointer", display: "flex" }}>
+                  <span onClick={() => setShowConfirm(!showConfirm)} className="hover-grow">
                     {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
                   </span>
                 }
                 value={formData.confirmPassword}
                 onChange={handleChange}
-                // name="confirmPassword"
+                name="confirmPassword"
                 error={errors.confirmPassword}
               />
 
               {/* Terms */}
-              <label style={{
+              <label className="hover-grow" style={{
                 display: "flex", alignItems: "flex-start", gap: 12,
                 cursor: "pointer", padding: "8px 0",
               }}>
@@ -617,7 +895,7 @@ const Register = () => {
               {/* Login Link */}
               <p style={{ textAlign: "center", fontSize: 14, color: "#6b7280" }}>
                 Already have an account?{" "}
-                <span style={{
+                <span className="hover-grow" style={{
                   color: "#16a34a", fontWeight: 700,
                   cursor: "pointer",
                 }}>
@@ -636,8 +914,18 @@ const Register = () => {
               { icon: "🔒", text: "256-bit SSL" },
               { icon: "🛡️", text: "Bank-grade security" },
               { icon: "📊", text: "Real-time data" },
-            ].map((badge, _i) => (
-              <div key={badge.text} style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            ].map((badge, i) => (
+              <div 
+                key={badge.text} 
+                className="hover-grow"
+                style={{ 
+                  display: "flex", 
+                  alignItems: "center", 
+                  gap: 8,
+                  opacity: 0,
+                  animation: `fadeInUp 0.4s ease-out ${0.6 + i * 0.1}s forwards`
+                }}
+              >
                 <span style={{ fontSize: 14 }}>{badge.icon}</span>
                 <span style={{ fontSize: 12, color: "#9ca3af", fontWeight: 600 }}>{badge.text}</span>
               </div>
