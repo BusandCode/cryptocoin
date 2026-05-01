@@ -1,0 +1,474 @@
+/* =============================================
+   MOBILE RESPONSIVE OVERRIDES FOR landing.css
+   Add this file AFTER landing.css in your imports
+   ============================================= */
+
+/* ---- Base resets for mobile safety ---- */
+html, body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+img, svg, video {
+  max-width: 100%;
+}
+
+/* ============================================
+   BREAKPOINT: ≤ 1024px (tablets, small laptops)
+   ============================================ */
+@media (max-width: 1024px) {
+  .hero-section {
+    gap: 40px;
+    padding: 60px 32px;
+  }
+
+  .hero-title {
+    font-size: 44px;
+  }
+
+  .pricing-card.featured {
+    transform: scale(1.01);
+  }
+}
+
+/* ============================================
+   BREAKPOINT: ≤ 768px (tablets portrait, large phones)
+   ============================================ */
+@media (max-width: 768px) {
+
+  /* --- Navigation --- */
+  .landing-nav {
+    padding: 16px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: #f3f4f6;
+    border: none;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+
+  .nav-brand {
+    font-size: 18px;
+    gap: 8px;
+  }
+
+  .brand-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  /* --- Hero Section --- */
+  .hero-section {
+    grid-template-columns: 1fr;
+    padding: 40px 20px 48px;
+    min-height: auto;
+    gap: 40px;
+    text-align: center;
+  }
+
+  .hero-content {
+    align-items: center;
+  }
+
+  .hero-badge {
+    font-size: 13px;
+  }
+
+  .hero-title {
+    font-size: 34px;
+    line-height: 1.15;
+  }
+
+  .hero-subtitle {
+    font-size: 16px;
+    max-width: 480px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    justify-content: center;
+    padding: 14px 20px;
+    font-size: 15px;
+    border-radius: 12px;
+  }
+
+  .hero-stats {
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    border-top: 2px solid #e5e7eb;
+    padding-top: 28px;
+    margin-top: 28px;
+    width: 100%;
+  }
+
+  .stat-divider {
+    display: none;
+  }
+
+  .stat {
+    align-items: center;
+  }
+
+  .stat-number {
+    font-size: 26px;
+  }
+
+  /* --- Hero Dashboard Preview --- */
+  .hero-dashboard-preview {
+    order: -1; /* Show card above content on mobile for visual impact */
+    justify-content: center;
+  }
+
+  .preview-card {
+    max-width: 340px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+  }
+
+  .preview-card.floating {
+    animation: none; /* Reduce motion on mobile */
+  }
+
+  .balance-amount {
+    font-size: 20px;
+  }
+
+  /* --- Features Section --- */
+  .features-section {
+    padding: 56px 0;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .feature-card {
+    padding: 24px;
+  }
+
+  .section-header h2 {
+    font-size: 26px;
+  }
+
+  /* --- Security Section --- */
+  .security-section {
+    padding: 56px 0;
+  }
+
+  .security-content {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    text-align: center;
+  }
+
+  .security-text h2 {
+    font-size: 24px;
+  }
+
+  .security-list {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .security-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .badge-circle.rotate {
+    animation: none; /* Skip spinning on mobile for accessibility */
+  }
+
+  /* --- Crypto Section --- */
+  .crypto-section {
+    padding: 56px 0;
+  }
+
+  .crypto-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .crypto-token {
+    padding: 16px 12px;
+    border-radius: 14px;
+  }
+
+  .token-icon.bounce {
+    animation: none;
+  }
+
+  /* --- Pricing Section --- */
+  .pricing-section {
+    padding: 56px 0;
+  }
+
+  .pricing-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .pricing-card.featured {
+    transform: none;
+    order: -1; /* Featured plan first on mobile */
+  }
+
+  .pricing-card {
+    padding: 24px;
+    border-radius: 18px;
+  }
+
+  .price {
+    font-size: 40px;
+  }
+
+  /* --- CTA Section --- */
+  .cta-section {
+    padding: 56px 0;
+  }
+
+  .cta-content h2 {
+    font-size: 26px;
+  }
+
+  .cta-form {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .cta-form input,
+  .cta-button {
+    width: 100%;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+
+  .cta-button {
+    padding: 14px 20px;
+  }
+
+  /* --- Footer --- */
+  .footer {
+    padding: 48px 0 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+
+  .footer-brand p {
+    max-width: 260px;
+    margin: 8px auto 0;
+  }
+
+  .footer-links {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* --- Container padding --- */
+  .container {
+    padding: 0 20px;
+  }
+
+  /* --- Section headers --- */
+  .section-header {
+    padding: 0 4px;
+  }
+}
+
+/* ============================================
+   BREAKPOINT: ≤ 480px (small phones)
+   ============================================ */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .hero-badge {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+
+  .preview-card {
+    max-width: 100%;
+    border-radius: 16px;
+    padding: 18px;
+  }
+
+  .balance-amount {
+    font-size: 18px;
+    /* Prevent shimmer animation from overflowing on small screens */
+    word-break: break-all;
+  }
+
+  .crypto-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .crypto-token {
+    padding: 14px 10px;
+  }
+
+  .token-name {
+    font-size: 13px;
+  }
+
+  .section-header h2 {
+    font-size: 22px;
+  }
+
+  .section-header p {
+    font-size: 14px;
+  }
+
+  .cta-content h2 {
+    font-size: 22px;
+  }
+
+  .hero-stats {
+    gap: 16px;
+  }
+
+  .stat-number {
+    font-size: 24px;
+  }
+
+  .footer-links {
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* Prevent action chips from wrapping awkwardly */
+  .preview-actions {
+    gap: 8px;
+  }
+
+  .action-chip {
+    font-size: 11px;
+    padding: 8px 6px;
+  }
+
+  /* Reduce hero-section top padding on tiny screens */
+  .hero-section {
+    padding: 28px 16px 40px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    padding: 13px 18px;
+    font-size: 14px;
+    border-radius: 10px;
+  }
+
+  .pricing-card {
+    padding: 20px;
+  }
+
+  .price {
+    font-size: 36px;
+  }
+
+  .feature-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}
+
+/* ============================================
+   MOBILE MENU (JavaScript-toggled)
+   Add class "open" to .nav-links via JS
+   ============================================ */
+@media (max-width: 768px) {
+  .nav-links.open {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    position: fixed;
+    top: 65px;
+    left: 0;
+    right: 0;
+    background: white;
+    border-bottom: 1px solid #e5e7eb;
+    padding: 16px 20px 24px;
+    z-index: 99;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    animation: slideDown 0.25s ease forwards;
+  }
+
+  .nav-links.open a {
+    padding: 12px 0;
+    font-size: 16px;
+    width: 100%;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .nav-links.open .nav-login,
+  .nav-links.open .nav-signup {
+    margin-top: 8px;
+    text-align: center;
+    border-radius: 12px;
+    padding: 12px 20px;
+    width: 100%;
+    border-bottom: none;
+  }
+}
+
+/* ============================================
+   ACCESSIBILITY: reduce motion preference
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
