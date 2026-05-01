@@ -14,6 +14,7 @@ import {
   User,
   // Sparkles
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const CryptoIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -94,6 +95,9 @@ const Register = () => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoaded, setIsLoaded] = useState(false);
+  const navigate = useNavigate();
+
+
 
   useEffect(() => {
     setIsLoaded(true);
@@ -124,6 +128,10 @@ const Register = () => {
         if (!value && name !== "confirmPassword") return `${name} is required`;
         return "";
     }
+  };
+
+  const handleLogin = () => {
+    navigate("/login");
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -895,7 +903,7 @@ const Register = () => {
               {/* Login Link */}
               <p style={{ textAlign: "center", fontSize: 14, color: "#6b7280" }}>
                 Already have an account?{" "}
-                <span className="hover-grow" style={{
+                <span onClick={handleLogin} className="hover-grow" style={{
                   color: "#16a34a", fontWeight: 700,
                   cursor: "pointer",
                 }}>
