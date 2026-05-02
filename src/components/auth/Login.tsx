@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { ChangeEvent, ReactNode } from "react";
-import { Eye, EyeOff, ArrowRight, Shield, Clock, TrendingUp, Sparkles } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, Shield, Clock, TrendingUp } from "lucide-react";
 
 const CryptoIcon = () => (
   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -132,11 +132,11 @@ const Login = () => {
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      handleSubmit();
-    }
-  };
+  // const handleKeyPress = (e: React.KeyboardEvent) => {
+  //   if (e.key === 'Enter') {
+  //     handleSubmit();
+  //   }
+  // };
 
   return (
     <div className={`login-container ${isLoaded ? 'loaded' : ''}`}>
